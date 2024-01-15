@@ -111,8 +111,6 @@ class YoloNasDetectionModel(DetectionModel):
         if self.model is None:
             raise ValueError("Model is not loaded, load it by calling .load_model()")
         prediction_result = list(self.model.predict(image))
-        print("Performing inference, results: ", prediction_result)
-        print("Inference image.shape: ", image.shape)
         self._original_predictions = prediction_result
 
     @property
