@@ -150,7 +150,6 @@ class YoloNasDetectionModel(DetectionModel):
                 List[[height, width],[height, width],...]
         """
         original_predictions = self._original_predictions
-        print("_create_object_prediction_list_from_original_predictions: original_predictions: ", original_predictions)
         # compatilibty for sahi v0.8.15
         shift_amount_list = fix_shift_amount_list(shift_amount_list)
         full_shape_list = fix_full_shape_list(full_shape_list)
