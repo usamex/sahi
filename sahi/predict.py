@@ -89,6 +89,7 @@ def get_prediction(
     # read image as pil
     image_as_pil = read_image_as_pil(image)
     # get prediction
+    print("Get prediction, image_as_pil type: ", type(image_as_pil))
     time_start = time.time()
     detection_model.perform_inference(np.ascontiguousarray(image_as_pil))
     time_end = time.time() - time_start

@@ -47,7 +47,11 @@ class YoloNasDetectionModel(DetectionModel):
                     )
                 self.class_names = yaml_content
             self.num_classes = len(self.class_names)
+        print("Class names: ", self.class_names)
         self.model_name = model_name
+        print("Model name: ", self.model_name)
+        print("Num classes: ", self.num_classes)
+
         super().__init__(model_path=model_path, **kwargs)
 
     def check_dependencies(self) -> None:
@@ -58,7 +62,7 @@ class YoloNasDetectionModel(DetectionModel):
         Detection model is initialized and set to self.model.
         """
         from super_gradients.training import models
-
+        print("Loading model: ", self.model_name, self.model_path, self.pretrained_weights, self.num_classes)
         try:
             model = models.get(
                 model_name=self.model_name,
@@ -78,7 +82,7 @@ class YoloNasDetectionModel(DetectionModel):
                 A YoloNas model
         """
         from super_gradients.training.processing.processing import get_pretrained_processing_params
-
+        print("Setting model")
         if model.__class__.__module__.split(".")[-1] != "yolo_nas_variants":
             raise Exception(f"Not a YoloNas model: {type(model)}")
 
@@ -89,7 +93,7 @@ class YoloNasDetectionModel(DetectionModel):
             processing_params["class_names"] = self.class_names
         model.set_dataset_processing_params(**processing_params)
         self.model = model
-
+        print("is self model none? ", self.model is None)
         # set category_mapping
         if not self.category_mapping:
             category_mapping = {str(ind): category_name for ind, category_name in enumerate(self.category_names)}
@@ -107,6 +111,8 @@ class YoloNasDetectionModel(DetectionModel):
         if self.model is None:
             raise ValueError("Model is not loaded, load it by calling .load_model()")
         prediction_result = list(self.model.predict(image))
+        print("Performing inference, results: ", prediction_result)
+        print("Inference image.shape: ", image.shape)
         self._original_predictions = prediction_result
 
     @property
@@ -144,7 +150,7 @@ class YoloNasDetectionModel(DetectionModel):
                 List[[height, width],[height, width],...]
         """
         original_predictions = self._original_predictions
-
+        print("_create_object_prediction_list_from_original_predictions: original_predictions: ", original_predictions)
         # compatilibty for sahi v0.8.15
         shift_amount_list = fix_shift_amount_list(shift_amount_list)
         full_shape_list = fix_full_shape_list(full_shape_list)

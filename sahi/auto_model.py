@@ -63,7 +63,7 @@ class AutoDetectionModel:
 
         model_class_name = MODEL_TYPE_TO_MODEL_CLASS_NAME[model_type]
         DetectionModel = import_model_class(model_type, model_class_name)
-
+        print(DetectionModel)
         return DetectionModel(
             model_path=model_path,
             model=model,
